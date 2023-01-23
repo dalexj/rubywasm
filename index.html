@@ -1,0 +1,85 @@
+<html>
+  <script src="https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@0.5.0/dist/browser.script.iife.js"></script>
+  <script src="main.rb">
+require "js"
+
+document = JS.global[:document]
+
+add_button = document.getElementById("add")
+new_todo_input = document.getElementById("new_todo")
+todos = document.getElementById("todos")
+
+add_button.addEventListener("click") do
+  next if new_todo_input[:value].to_s.empty?
+
+  li = document.createElement("li")
+  li[:innerHTML] = new_todo_input[:value]
+  delete_button = document.createElement("button")
+  delete_button[:class] = "delete-button"
+  delete_button[:innerHTML] = "Done"
+  delete_button.addEventListener("click") do
+    li.remove
+  end
+  li.appendChild(delete_button)
+  todos.appendChild(li)
+  new_todo_input[:value] = ""
+end
+  </script>
+
+  <style>
+    body {
+      background-color: #282c34;
+    }
+    h1 {
+      color: #61dafb;
+    }
+    button {
+      background-color: #61dafb;
+      color: #282c34;
+      border: none;
+      padding: 10px;
+      margin: 10px;
+      font-size: 20px;
+    }
+    button:hover {
+      background-color: #282c34;
+      color: #61dafb;
+    }
+    #todos {
+      color: #61dafb;
+    }
+    input {
+      background-color: #282c34;
+      color: #61dafb;
+      border: 1px solid #61dafb;
+      padding: 10px;
+      margin: 10px;
+      font-size: 20px;
+    }
+    .centered {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .delete-button {
+      background-color: #61dafb;
+      color: #282c34;
+      border: none;
+      padding: 10px;
+      margin: 10px;
+      font-size: 20px;
+    }
+  </style>
+  <body>
+    <div class="centered">
+      <h1>Todo App</h1>
+      <input type="text" id="new_todo" />
+      <button id="add">Add Todo</button>
+      <div id="todos"></div>
+      <canvas id="canvas"></canvas>
+    </div>
+  </body>
+
+</html>
